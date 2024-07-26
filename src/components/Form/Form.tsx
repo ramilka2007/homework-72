@@ -3,14 +3,21 @@ import { ApiDish, DishMutation } from '../../types';
 
 interface FormProps {
   onSubmit: (dish: ApiDish) => void;
+  existingDish?: ApiDish;
 }
 
-const Form: React.FC<FormProps> = ({ onSubmit }) => {
-  const [dish, setDish] = useState<DishMutation>({
-    title: '',
-    price: '',
-    image: '',
-  });
+const emptyState: DishMutation = {
+  title: '',
+  price: '',
+  image: '',
+};
+
+const Form: React.FC<FormProps> = ({ onSubmit, existingDish }) => {
+  const initialState: DishMutation = existingDish
+    ? { ...existingDish, price: existingDish.price.toString() }
+    : emptyState;
+
+  const [dish, setDish] = useState<DishMutation>(initialState);
 
   const changeInfo = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -32,7 +39,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
   return (
     <form onSubmit={onFormSubmit}>
-      <h1 className="mb-5">Add new dish</h1>
+      <h1 className="mb-5">{existingDish ? 'Edit dish' : 'Add new dish'}</h1>
       <div className="form-group d-flex justify-content-evenly mb-4">
         <h4 className="w-25">
           <label htmlFor="title">Title</label>
@@ -77,7 +84,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
         />
       </div>
       <button type="submit" className="btn btn-primary mt-2">
-        Create
+        {existingDish ? 'Update' : 'Create'}
       </button>
     </form>
   );

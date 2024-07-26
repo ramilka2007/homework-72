@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectDishes } from '../../store/dishesSlice';
 import { useAppDispatch } from '../../app/hooks';
-import { fetchDishes } from '../../store/dishesThunk';
-import DishItem from "../../components/DishItem/DishItem";
+import { deleteDish, fetchDishes } from '../../store/dishesThunk';
+import DishItem from '../../components/DishItem/DishItem';
 
 const AdminDishes = () => {
   const dispatch = useAppDispatch();
   const dishes = useSelector(selectDishes);
+
+  const removeDish = async (id: string) => {
+    await dispatch(deleteDish(id));
+    await dispatch(fetchDishes());
+  };
 
   useEffect(() => {
     dispatch(fetchDishes());
@@ -24,7 +29,7 @@ const AdminDishes = () => {
       </div>
       <div>
         {dishes.map((dish) => (
-          <DishItem key={dish.id} dishInfo={dish}/>
+          <DishItem key={dish.id} dishInfo={dish} deleteDish={removeDish} />
         ))}
       </div>
     </div>

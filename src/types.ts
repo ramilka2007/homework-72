@@ -16,3 +16,7 @@ export type ApiDish = Omit<Dish, 'id'>;
 export interface ApiDishes {
   [id: string]: ApiDish;
 }
+
+export interface OrderDish {
+  [id: string]: number;
+}
