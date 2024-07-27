@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { ApiDish, DishMutation } from '../../types';
+import ButtonSpinner from '../Spinner/ButtonSpinner';
 
 interface FormProps {
   onSubmit: (dish: ApiDish) => void;
   existingDish?: ApiDish;
+  isLoading?: boolean;
 }
 
 const emptyState: DishMutation = {
@@ -12,7 +14,11 @@ const emptyState: DishMutation = {
   image: '',
 };
 
-const Form: React.FC<FormProps> = ({ onSubmit, existingDish }) => {
+const DishForm: React.FC<FormProps> = ({
+  onSubmit,
+  existingDish,
+  isLoading,
+}) => {
   const initialState: DishMutation = existingDish
     ? { ...existingDish, price: existingDish.price.toString() }
     : emptyState;
@@ -83,11 +89,16 @@ const Form: React.FC<FormProps> = ({ onSubmit, existingDish }) => {
           value={dish.image}
         />
       </div>
-      <button type="submit" className="btn btn-primary mt-2">
+      <button
+        type="submit"
+        className="btn btn-primary mt-2"
+        disabled={isLoading}
+      >
+        {isLoading && <ButtonSpinner />}
         {existingDish ? 'Update' : 'Create'}
       </button>
     </form>
   );
 };
 
-export default Form;
+export default DishForm;

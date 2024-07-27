@@ -20,3 +20,8 @@ export interface ApiDishes {
 export interface OrderDish {
   [id: string]: number;
 }
+
+export interface ApiAllOrders {
+  id: string;
+  orders: OrderDish[];
+}
