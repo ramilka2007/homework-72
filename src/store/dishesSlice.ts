@@ -80,10 +80,10 @@ export const dishesSlice = createSlice({
         state.updateLoading = true;
       })
       .addCase(updateDish.fulfilled, (state: DishesState) => {
-        state.updateLoading = true;
+        state.updateLoading = false;
       })
       .addCase(updateDish.rejected, (state: DishesState) => {
-        state.updateLoading = true;
+        state.updateLoading = false;
       });
 
     builder
